@@ -6,7 +6,7 @@ import os
 
 url="https://dwgfree.com/category/"
 
-categories = ['cad-accessories','2d-animals']
+categories = ['cad-accessories','2d-animals','cad-architecture','autocad-block-library-files','bedroom-cad-blocks','bathroom-cad-blocks','door-cad-block','road-dwg','furniture-cad-blocks','free-autocad-house-plans-drawings','kitchen-cad-blocks-drawings','autocad-projects','people-cad-blocks','drawing-sports','stairs-block','automobile-blocks','plan-tree-cad-blocks','autocad-title-blocks-templates','auto-cad-symbol','autocad-electric-symbols','electrical-lighting-dwg','pipe-fittings']
 
 destinationFolder = "drawings"
 
@@ -33,7 +33,7 @@ def downloadFile(url: str, dest_folder: str):
     else:  # HTTP status code 4XX/5XX
         print("Download failed: status code {}\n{}".format(r.status_code, r.text))
 
-def download(downloadurl):
+def download(downloadurl,category):
     htmldata = getdata(downloadurl) 
     soup = BeautifulSoup(htmldata, 'html.parser') 
     downloadlink = soup.find("a",class_="grid-link-container")
@@ -41,7 +41,7 @@ def download(downloadurl):
     downloadlink = re.findall(r'http[s]?:\/\/dwgfree.com\/wp-content\/uploads\/.*', downloadlink['href'])
     if(len(downloadlink) > 0):
         print("will download "+downloadlink[0])
-        downloadFile(downloadlink[0],destinationFolder)
+        downloadFile(downloadlink[0],destinationFolder+"/"+category)
 
 for category in categories:
     fetchUrl = url+category
@@ -54,7 +54,7 @@ for category in categories:
         data = '' 
         for data in soup.find_all("a",class_="db"): 
             print(data['href'])
-            download(data['href'])
+            download(data['href'],category)
 
         nextPage = soup.find("a",class_="next page-numbers")
         if nextPage:
