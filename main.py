@@ -36,11 +36,11 @@ def download(downloadurl,category):
     htmldata = getdata(downloadurl) 
     soup = BeautifulSoup(htmldata, 'html.parser') 
     downloadlink = soup.find("a",class_="grid-link-container")
-    print(downloadlink['href'])
-    downloadlink = re.findall(r'http[s]?:\/\/dwgfree.com\/wp-content\/uploads\/.*', downloadlink['href'])
-    if(len(downloadlink) > 0):
-        print("will download "+downloadlink[0])
-        downloadFile(downloadlink[0],destinationFolder+"/"+category)
+    if downloadlink['href']:
+        downloadlink = re.findall(r'http[s]?:\/\/dwgfree.com\/wp-content\/uploads\/.*', downloadlink['href'])
+        if(len(downloadlink) > 0):
+            print("will download "+downloadlink[0])
+            downloadFile(downloadlink[0],destinationFolder+"/"+category)
 
 for category in categories:
     fetchUrl = url+category
