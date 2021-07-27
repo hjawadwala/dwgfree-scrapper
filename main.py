@@ -36,7 +36,7 @@ def download(downloadurl,category):
     htmldata = getdata(downloadurl) 
     soup = BeautifulSoup(htmldata, 'html.parser') 
     downloadlink = soup.find("a",class_="grid-link-container")
-    if downloadlink['href']:
+    if downloadlink and downloadlink['href']:
         downloadlink = re.findall(r'http[s]?:\/\/dwgfree.com\/wp-content\/uploads\/.*', downloadlink['href'])
         if(len(downloadlink) > 0):
             print("will download "+downloadlink[0])
